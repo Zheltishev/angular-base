@@ -1,0 +1,29 @@
+<form 
+  [formGroup]="form" 
+  (ngSubmit)="changeInputValue()"
+  class="flex flex-col gap-4 mt-3 w-96"
+>
+  <input 
+    type="text"
+    formControlName="inputValue"
+    placeholder="Введите значение"
+    class="p-2 border border-gray-300 rounded"
+    appFocus
+  >
+
+  @if (inputCheck.errors?.['minlength'] && inputCheck.touched) {
+    <p 
+      class="text-rose-500 font-medium mb-2"
+    >
+      input error
+    </p>
+  }
+  
+
+  <button 
+    type="submit"
+    class="bg-sky-500 text-white p-2 rounded cursor-pointer"
+  >
+    Отправить
+  </button>
+</form>
