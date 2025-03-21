@@ -8,18 +8,24 @@ import { Observable, tap } from 'rxjs';
 import { GlobalErrorComponent } from "./components/global-error/global-error.component";
 import { FormsModule } from '@angular/forms';
 import { FilterProductsPipe } from './pipes/filter-products.pipe';
+import { ModalComponent } from './components/modal/modal.component';
+import { CreateProductComponent } from "./components/create-product/create-product.component";
+import { ModalService } from './services/modal.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet, 
-    CommonModule, 
-    ProductComponent, 
-    GlobalErrorComponent, 
+    RouterOutlet,
+    CommonModule,
+    ProductComponent,
+    ModalComponent,
+    GlobalErrorComponent,
     FormsModule,
-    FilterProductsPipe
-  ],
+    FilterProductsPipe,
+    CreateProductComponent,
+    FormsModule
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -28,24 +34,24 @@ export class AppComponent implements OnInit {
   title = 'angular app';
   loading = false;
   // products: IProduct[] = [];
-  products$: Observable<IProduct[]>
+  // products$: Observable<IProduct[]>
   term=''
 
-  constructor(private productsSerice: ProductsService) {}
+  constructor(
+    public productsSerice: ProductsService,
+    public modalService: ModalService
+  ) {}
 
   ngOnInit(): void {
     this.loading = true;
-    this.products$ = this.productsSerice
-      .getAll()
-      .pipe(
-        tap(() => this.loading = false)
-      )
-
-    // this.productsSerice
+    // this.products$ = this.productsSerice
     //   .getAll()
-    //   .subscribe(products => {
-    //     this.products = products;
-    //     this.loading = false;
-    //   })
+    //   .pipe(
+    //     tap(() => this.loading = false)
+    //   )
+
+    this.productsSerice
+      .getAll()
+      .subscribe(() => this.loading = false )
   }
 }
